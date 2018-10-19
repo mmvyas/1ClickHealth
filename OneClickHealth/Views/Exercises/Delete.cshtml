@@ -1,0 +1,41 @@
+﻿@model OneClickHealth.Models.Exercise
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="color: #006cab">Delete Exercise from Database</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Exercise</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ExerciseName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ExerciseName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CaloriesBurnt)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CaloriesBurnt)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

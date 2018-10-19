@@ -1,0 +1,84 @@
+﻿<script src="~/Scripts/graph/exporting.js"></script>
+<script src="~/Scripts/graph/highcharts.js"></script>
+
+<h2 style="color: #006cab">See your Progress here</h2> <br />
+<p>The below chart shows your progress for each of your Diary entries. Keep it up !! You are making Good Progress.</p>
+
+<div class="jumbotron">
+
+    <div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+<br />
+<div>
+    @Html.ActionLink("Click here for detailed info", "Create")
+</div>
+
+<script>
+    $(document).ready(function () {
+        $.getJSON("GetData", function (data) {
+            Highcharts.setOptions({
+                colors: ['#50B432']
+            });
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Total Calories Burnt Per Day'
+                },
+                xAxis: {
+                    categories: data.EntryDate,
+                    title: {
+                        text: 'Entry Date'
+                    },
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total Calories Burnt'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    x: -30,
+                    verticalAlign: 'top',
+                    y: 25,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.background2) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    headerFormat: '<b>{point.x}</b><br/>',
+                    pointFormat: '{series.name}: {point.y}<br/>Total: {point.stackTotal}'
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                        }
+                    }
+                },
+                series: [{
+                    name: "Calories",
+                    data: data.TotalCalories
+                }]
+            });
+        });
+    });
+</script>
+
+<div>
+    @Html.ActionLink("Back to Select Start and End Date again", "Index")
+</div>

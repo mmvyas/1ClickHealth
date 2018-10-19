@@ -1,0 +1,42 @@
+﻿<script src="~/Scripts/graph/exporting.js"></script>
+<script src="~/Scripts/graph/highcharts.js"></script>
+
+<h2 style="color: #006cab">Your Progress for the Selected date</h2> <br />
+<p>The below pie chart shows your progress for the date you selected. Each of the colors represent calories burnt individually on each exercise.</p>
+<p>Congrats ! You are doing Good.</p>
+<div class="jumbotron">
+
+    <div id="container3" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+
+</div>
+<script>
+    $(document).ready(function () {
+        $.getJSON("GetPieData", function (data) {
+
+            var name = data.ExerciseName;
+            var data = data.CaloriesBurnt;
+            var final = [];
+            for (var i = 0; i < name.length; i++) {
+                final.push({
+                    name: name[i],
+                    y: data[i]
+                });
+            }
+            Highcharts.chart('container3', {
+                title: {
+                    text: 'Calories Burnt by each Exercise'
+                },
+                series: [{
+                    type: 'pie',
+                    allowPointSelect: true,
+                    data: final,
+                    showInLegend: true
+                }]
+            });
+        });
+    });
+</script>
+
+<div>
+    @Html.ActionLink("Back to Select Another Date", "Create")
+</div>

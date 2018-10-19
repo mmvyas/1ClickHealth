@@ -1,0 +1,70 @@
+﻿@model IEnumerable<OneClickHealth.Models.ExerciseProgress>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="color: #006cab">My Progress Diary</h2>
+<br /><br />
+@using (Html.BeginForm("Index", "ProgressDiaries", FormMethod.Get))
+{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>UserID</th>
+                <th>Date</th>
+                <th>Entry Name</th>
+                <th>Edit Entry</th>
+                <th>Exercise Name</th>
+                <th>Hours Spent</th>
+                <th>Calories Burnt</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Count() == 0)
+            {
+                <tr>
+                    <td colspan="7" style="color:red">
+                        No Entry Found !
+                    </td>
+                </tr>
+            }
+            else
+            {
+                int x = -1;
+
+                foreach (var item in Model)
+                {
+                    if (x != item.ProgressId)
+                    {
+                        <tr>
+                            <td rowspan="4">@item.UserId</td>
+                            <td rowspan="4">@item.EntryDate.Day-@item.EntryDate.Month-@item.EntryDate.Year</td>
+                            <td rowspan="4">@item.ProgressDiary.EntryName</td>
+                            <td rowspan="4">
+                                @Html.ActionLink("Edit", "Edit", new { id = item.ProgressId}) |
+                                @Html.ActionLink("Details", "Details", new { id = item.ProgressId }) |
+                                @Html.ActionLink("Delete", "Delete", new { id = item.ProgressId })
+                            </td>
+                        </tr>
+                    }
+
+                    <tr>
+                        <td>@item.Exercise.ExerciseName</td>
+                        <td>@item.HoursSpent</td>
+                        <td>@(@item.Exercise.CaloriesBurnt * @item.HoursSpent)</td>
+
+                    </tr>
+
+                    x = @item.ProgressId;
+                }
+            }
+        </tbody>
+    </table>
+}
+
+
+<p>
+    @Html.ActionLink("Create a new entry", "Create")
+</p>
