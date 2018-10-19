@@ -20,6 +20,7 @@ namespace OneClickHealth.Models
         public string EntryName { get; set; }
 
 
+
         [Required]        
         public int[] ExerciseId { get; set; }
         [Required]
